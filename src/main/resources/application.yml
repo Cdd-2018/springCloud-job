@@ -1,0 +1,36 @@
+server:
+  port: 9092
+
+spring:
+  application:
+    name: job
+  datasource:
+    url: jdbc:mysql://${datasource.url}?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+    username: ${datasource.username}
+    password: ${datasource.password}
+  profiles:
+    active: DEV
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    open-in-view: true
+
+
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
+
+mybatis:
+  mapper-locations: classpath*:mapper/*.xml
+  type-aliases-package:  com.chendongdong.job.doMain
+mapper:
+    identity: MYSQL
+
+
+eureka:
+  client:
+    service-url:
+     defaultZone: http://${eureka.user}:${eureka.password}@${eureka.url}:${eureka.port}/eureka
