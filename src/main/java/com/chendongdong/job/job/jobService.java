@@ -1,5 +1,6 @@
 package com.chendongdong.job.job;
 
+import com.chendongdong.job.jobDao.offerJob;
 import org.quartz.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -21,7 +22,12 @@ public class jobService {
         CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(cronExpression);
         //按新的cronExpression表达式构建一个新的trigger
         CronTrigger trigger = TriggerBuilder.newTrigger().withIdentity(jobClassName, jobGroupName).withSchedule(scheduleBuilder).build();
-        scheduler.scheduleJob(jobDetail, trigger);
+        try {
+            scheduler.scheduleJob(jobDetail, trigger);
+        }catch (SchedulerException e){
+            System.out.println("创建定时任务失败" + e);
+            throw new Exception("创建定时任务失败");
+        }
     }
 
     public void jobPause(String jobClassName, String jobGroupName) throws Exception {

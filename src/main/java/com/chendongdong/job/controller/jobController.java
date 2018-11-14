@@ -1,9 +1,12 @@
 package com.chendongdong.job.controller;
 
 import com.chendongdong.job.job.jobService;
+import com.chendongdong.job.jobDao.offerJob;
+import org.quartz.Scheduler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -12,6 +15,9 @@ public class jobController {
 
     @Autowired
     private jobService jobService;
+
+    @Autowired
+    private offerJob offer;
 
     /**
      * 创建任务
@@ -70,9 +76,9 @@ public class jobController {
         jobService.jobdelete(jobClassName, jobGroupName);
     }
 
-    @GetMapping(value = "/queryjob")
-    public Map<String, Object> queryjob(@RequestParam(value = "pageNum") Integer pageNum, @RequestParam(value = "pageSize") Integer pageSize) {
-
+    @PostMapping(value = "/queryjob")
+    public Map<String, Object> queryjob() {
+        List<Map<String, Object>> userAll = offer.getUserAll();
         return null;
     }
 
